@@ -11,7 +11,7 @@ router = APIRouter(
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 
-@router.post("/register", status_code=status.HTTP_201_CREATED)
+@router.post("/register", status_code=status.HTTP_200_OK)
 async def create_user(user: UserBase, db: db_dependency):
     user.password = pwd_context.hash(user.password)
     db_user = models.User(**user.model_dump())
@@ -19,7 +19,7 @@ async def create_user(user: UserBase, db: db_dependency):
     db.commit()
     return {"message": "User created successfully!"}
     
-@router.post("/login", status_code=status.HTTP_202_ACCEPTED)
+@router.post("/login", status_code=status.HTTP_200_OK)
 async def login(input: UserBase, db: db_dependency, response: Response):
     user = db.query(models.User).filter(models.User.username == input.username).first()
     if user is None:

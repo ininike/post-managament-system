@@ -8,7 +8,7 @@ router = APIRouter(
     tags=["Post"]
 )
 
-@router.post("/make_post", status_code=status.HTTP_201_CREATED)
+@router.post("/make_post", status_code=status.HTTP_200_OK)
 async def make_post(db: db_dependency, post: PostBase, current_user: current_user_dependency):
     db_post = models.Posts(**post.model_dump())
     db_post.user_id = current_user.id
